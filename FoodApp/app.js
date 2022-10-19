@@ -1,36 +1,20 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const authRouter = require('./route/auth');
+const userModel = require("./models/userModel");
+const userRouter = require('./route/user')
 
 const app = express();
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
 
-const authRouter = express.Router();
 
-
-let db = [];
 app.use('/api/auth',authRouter);
-
-function signupUser(req,res){
-    // console.log("line no 14",req.body);
-    let  db1 = req.body;
-    console.log(req.body);
-    db.push(db1);
-    res.send(req.body);
-}
-function loginUser(req,res){
-  
-}
-authRouter
- .post("/signup",signupUser)
- .post("/login",loginUser)
-
-
-
-
- 
-app.get('/',(req,res)=>{
-  res.send("Hello  from Backend");
-})
+app.use('/api/user',userRouter);
 app.listen(5000,function(){
   console.log("Server Started");
 })
+
+
+
